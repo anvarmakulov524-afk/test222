@@ -1,0 +1,34 @@
+{
+ "salt": "p82n6j5u488np8kk",
+ "teacher": {
+  "login": "teacher",
+  "hash": "6c57f7077453c9d6073d40dd815026c755c0aaee38f06fa43039beb1ffd2ebf4"
+ },
+ "students": [
+  {
+   "login": "u01uv",
+   "name": "1. Мукатай Сункар",
+   "hash": "f1993f3457a014ece96951224401dbbc059626f3b5d94499ca3c6e419cdd80e4"
+  },
+  {
+   "login": "u02s9",
+   "name": "2. Толебай Ернур",
+   "hash": "89b59e05069c216718fce14ff3c40b11ef0a1a436ee78703e09df18521786bd4"
+  },
+  {
+   "login": "u03pm",
+   "name": "3. Клиновой Артем",
+   "hash": "01ca138c225b0d783212a4cbcd6b55cd0e3aed573d5948d9890af9f4414c5155"
+  },
+  {
+   "login": "u04ju",
+   "name": "4. Сухиненко Илья",
+   "hash": "26a34addfa15fffa2d8975dabcd49c43961a2322a303b5b6d2c40d0b6ae4e06f"
+  },
+  {
+   "login": "u059r",
+   "name": "5. Макулов Анвар",
+   "hash": "7d52b64258d812523217cc5ff4a7ef0ee6721c07e2c470a965257b5e4f2660a1"
+  }
+ ]
+}
