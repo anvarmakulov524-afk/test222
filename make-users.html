@@ -1,0 +1,26 @@
+<!DOCTYPE html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Создание учеников</title>
+<style>body{font:18px/1.5 system-ui;max-width:860px;margin:24px auto;padding:0 16px;color:#14213d}input,textarea{width:100%;box-sizing:border-box;font:inherit;padding:10px;border:1.5px solid #dfe5f1;border-radius:10px}textarea{min-height:170px}button{background:#4f46e5;color:#fff;border:0;border-radius:10px;padding:11px 20px;font:800 17px system-ui;cursor:pointer;margin:10px 8px 0 0}table{border-collapse:collapse;width:100%}td,th{border:1px solid #dfe5f1;padding:6px 10px;text-align:left}pre{background:#eef2ff;padding:12px;border-radius:10px;overflow:auto}label{display:block;margin:14px 0 4px;font-weight:700}</style></head><body>
+<h1>Создание users.json</h1>
+<label>Логин учителя</label><input id="tl" value="teacher">
+<label>Пароль учителя</label><input id="tp" value="">
+<label>Ученики: по одной фамилии и имени в строке (логин и пароль придумаются сами). Можно «ФИО;логин;пароль»</label><textarea id="st" placeholder="Иванов Иван&#10;Петрова Айгерим"></textarea>
+<button id="go">Создать</button><div id="out"></div>
+<script>
+const hx=async s=>[...new Uint8Array(await crypto.subtle.digest("SHA-256",new TextEncoder().encode(s)))].map(b=>b.toString(16).padStart(2,"0")).join("");
+const rnd=n=>{const c="abcdefghjkmnpqrstuvwxyz23456789";let r="";const a=crypto.getRandomValues(new Uint8Array(n));for(const x of a)r+=c[x%c.length];return r};
+const e=s=>String(s).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+document.getElementById("go").onclick=async()=>{
+ const tl=document.getElementById("tl").value.trim().toLowerCase(),tp=document.getElementById("tp").value;
+ if(!tl||tp.length<6){alert("Пароль учителя — не короче 6 символов");return}
+ const salt=rnd(16),rows=[];let i=0;
+ for(const line of document.getElementById("st").value.split("\n").map(x=>x.trim()).filter(Boolean)){
+  const p=line.split(";").map(x=>x.trim());i++;
+  rows.push({name:p[0],login:(p[1]||"u"+String(i).padStart(2,"0")+rnd(2)).toLowerCase(),pw:p[2]||rnd(6)})}
+ const U={salt,teacher:{login:tl,hash:await hx(salt+tl+":"+tp)},students:[]};
+ for(const r of rows)U.students.push({login:r.login,name:r.name,hash:await hx(salt+r.login+":"+r.pw)});
+ const key=await hx("api:"+salt+tl+":"+tp);
+ const blob=URL.createObjectURL(new Blob([JSON.stringify(U,null,1)],{type:"application/json"}));
+ document.getElementById("out").innerHTML=`<p><a href="${blob}" download="users.json"><button>⬇ Скачать users.json</button></a> Загрузите его в репозиторий (заменит старый).</p>
+ <h3>Ключ для Code.gs</h3><p>Замените значение TEACHER_KEY в Code.gs этим ключом, затем опубликуйте новую версию Apps Script: Развернуть → Управление развертываниями → Изменить → Новая версия → Развернуть.</p><pre>const TEACHER_KEY = '${key}';</pre>
+ <h3>Логины и пароли учеников (распечатайте)</h3><table><tr><th>ФИО</th><th>Логин</th><th>Пароль</th></tr>${rows.map(r=>`<tr><td>${e(r.name)}</td><td>${e(r.login)}</td><td>${e(r.pw)}</td></tr>`).join("")}</table>`}
+</script></body></html>

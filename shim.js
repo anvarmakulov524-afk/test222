@@ -11,11 +11,7 @@ const db={
   onSnapshot:(cb,err)=>poll(async()=>{const j=await call("get",p);return {raw:j,snap:snapOf(p,j)}},cb,err,TM?10000:30000)}),
  collection:p=>{const list=async()=>{const r=await call("list",p+"/",PW),docs=r.map(x=>snapOf(x.path,x.json));return {raw:r,snap:{docs,size:docs.length,empty:!docs.length}}};
   return {get:async()=>(await list()).snap,onSnapshot:(cb,err)=>poll(list,cb,err,6000)}}};
-const user={canEdit:async()=>{if(!TM)return false;
-  if(!PW){window.LB_WHY="в сессии нет ключа: нажмите «Выйти», войдите снова; на GitHub должен лежать новый index.html";return false}
-  try{const ok=await call("auth",PW);if(!ok){let h="";try{h=await call("hint")}catch(e){h="не получен (в Apps Script старая версия Code.gs: вставьте новый и сделайте «Новая версия»)"}
-   window.LB_WHY="ключ не совпал. Сайт отправил ключ, начинающийся с «"+PW.slice(0,6)+"», а в Code.gs начинается с «"+h+"». Нужно, чтобы они были одинаковые: пересоздайте users.json и ключ в make-users.html и вставьте ключ в Code.gs → новая версия"}return ok}
-  catch(e){window.LB_WHY="нет связи с Apps Script ("+e.message+"): проверьте ссылку в config.js, доступ «Все» и новую версию развёртывания";return false}},isOwner:async()=>false,
+const user={canEdit:async()=>{if(!TM)return false;try{return await call("auth",PW)}catch(e){return false}},isOwner:async()=>false,
  id:async()=>TM||!SS.login?null:SS.login.replace(/[^\w.\-]/g,c=>"_"+c.charCodeAt(0).toString(16))};
 window.claude={use:async n=>n==="db"?db:n==="user"?user:null};
 })();
