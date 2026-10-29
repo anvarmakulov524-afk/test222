@@ -159,7 +159,8 @@ ${isT()?`<div class="ok">Предпросмотр ученической стр�
 <div class="card join"><b>Практика по теме</b><p class="mu">Откройте вкладку «${t("assignments")}», чтобы выполнить задания, открыть материалы и сохранить отметки о выполнении.</p><button class="btn sm" data-tab="assignments">Перейти к заданиям →</button></div>`}
 
 function assignmentsV(){
- const cards=ASSIGNMENTS.map((a,i)=>`<details class="card assignment" ${i===0?"open":""}><summary><span class="assignment-n">${String(i+1).padStart(2,"0")}</span><span>${esc(li(a.title))}</span><span class="assignment-points">${Number(a.points)>0?esc(a.points)+" балл.":"Практика"}</span></summary>
+ const pointText=n=>!Number(n)?"Практика":`${n} ${L==="kk"?"ұпай":Number(n)===1?"балл":Number(n)<5?"балла":"баллов"}`;
+ const cards=ASSIGNMENTS.map((a,i)=>`<details class="card assignment" ${i===0?"open":""}><summary><span class="assignment-n">${String(i+1).padStart(2,"0")}</span><span>${esc(li(a.title))}</span><span class="assignment-points">${esc(pointText(a.points))}</span></summary>
  <p>${esc(li(a.description))}</p>${imageGallery(a.images,li(a.title))}
  ${(a.links||[]).filter(x=>safeHref(x.url)).map(x=>`<a class="btn sm ghost" href="${esc(safeHref(x.url))}" target="_blank" rel="noopener noreferrer">${esc(li(x.label||["Открыть ссылку","Сілтемені ашу"]))} ↗</a>`).join("")}
  ${!isT()&&S.name?`<label class="assignment-check"><input type="checkbox" data-a="assignmentDone" data-id="${esc(a.id)}" ${S.assignmentDone.includes(a.id)?"checked":""}><span>${S.assignmentDone.includes(a.id)?"Выполнено":"Отметить как выполненное"}</span></label>`:""}</details>`).join("");
