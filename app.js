@@ -80,7 +80,7 @@ let QUIZ=[
 {q:["Что важно проверить, если медиафайл не открывается?","Медиа файл ашылмаса, нені тексеру маңызды?"],k:3,o:[["Только цвет фона страницы","Тек бет фонының түсін"],["Имя тега h1","h1 тегінің атауын"],["Количество изображений на странице","Беттегі суреттер санын"],["Путь, имя и расширение файла в src","src ішіндегі файл жолын, атауын және кеңейтімін"]]}
 ];
 
-const T={ru:{lesson:"Урок",lecture:"Лекция",test:"Тест",reflect:"Рефлексия",send:"Отправить",teacher:"Учитель",
+const T={ru:{lesson:"Урок",lecture:"Лекция",assignments:"Задания",test:"Тест",reflect:"Рефлексия",send:"Отправить",teacher:"Учитель",
 goals:"Цели урока",tasks:"Задачи",join:"👋 Отметьтесь на уроке: введите ФИО",name:"Фамилия Имя Отчество",here:"Я на уроке",joined:"Вы на уроке",prog:"Выполнено",
 need:"Сначала введите ФИО на вкладке «Урок».",q:"Вопрос",fin:"Отправить ответы",sure:"Отправить ответы? Изменить их потом будет нельзя.",unans:"Есть вопросы без ответа. Всё равно отправить?",
 done:"✅ Ответы приняты. Изменить их нельзя.",res:"Ваш результат за тест",rres:"Ваш балл за рефлексию",answered:"Отвечено",
@@ -99,7 +99,7 @@ tTitle:"Результаты класса",tHow:"Как собрать резу�
 tPaste:"Вставьте сюда сообщения учеников из WhatsApp…",tN:"Учеников",tAT:"Средний балл за тест",tAR:"Средний балл рефлексии",tPass:"Тест на 70+ баллов",
 tName:"ФИО",tTest:"Тест",tRefl:"Рефлексия",tMood:"Настроение",tUnd:"Понимание",tQ:"Что осталось непонятным",tNoT:"тест не отправлен",
 tSort:"Сортировка:",sName:"по ФИО",sTest:"по тесту",sRefl:"по рефлексии",tCsv:"⬇ Скачать таблицу (CSV)",tClear:"Очистить",tNone:"Пока нет данных. Вставьте сообщения учеников.",tHard:"Какие вопросы вызывают трудности",tHardN:"Считается по ученикам, приславшим итог со вкладки «Отправить».",tOf:"из"},
-kk:{lesson:"Сабақ",lecture:"Дәріс",test:"Тест",reflect:"Рефлексия",send:"Жіберу",teacher:"Мұғалім",
+kk:{lesson:"Сабақ",lecture:"Дәріс",assignments:"Тапсырмалар",test:"Тест",reflect:"Рефлексия",send:"Жіберу",teacher:"Мұғалім",
 goals:"Сабақ мақсаттары",tasks:"Тапсырмалар",join:"👋 Сабаққа қатысқаныңызды белгілеңіз: аты-жөніңізді енгізіңіз",name:"Тегі Аты Әкесінің аты",here:"Мен сабақтамын",joined:"Сіз сабақтасыз",prog:"Орындалды",
 need:"Алдымен «Сабақ» бетінде аты-жөніңізді енгізіңіз.",q:"Сұрақ",fin:"Жауаптарды жіберу",sure:"Жауаптарды жіберу керек пе? Кейін өзгерту мүмкін болмайды.",unans:"Жауапсыз сұрақтар бар. Бәрібір жіберу керек пе?",
 done:"✅ Жауаптар қабылданды. Өзгертуге болмайды.",res:"Тест нәтижесі",rres:"Рефлексия балы",answered:"Жауап берілді",
@@ -121,15 +121,26 @@ tSort:"Сұрыптау:",sName:"аты бойынша",sTest:"тест бойы
 const MO=["😫","😕","😐","🙂","🤩"];
 const CK=["arr","dic","set","stk","que"];
 
+const ASSIGNMENT_DEFAULTS=[
+ {id:"safety",title:["Задание по технике безопасности","Қауіпсіздік техникасы бойынша тапсырма"],description:["Выполните интерактивное задание по технике безопасности. За каждый правильный ответ начисляются баллы.","Қауіпсіздік техникасы бойынша интерактивті тапсырманы орындаңыз. Әр дұрыс жауап үшін ұпай беріледі."],links:[{label:["Открыть сайт ТБ","ҚТ сайтын ашу"],url:"https://frolicking-eclair-ea305a.netlify.app"}],points:3,images:[]},
+ {id:"learningapps",title:["LearningApps: теги и функции","LearningApps: тегтер мен функциялар"],description:["Повторите назначение тегов audio и video и их атрибутов. За правильные ответы можно получить до 9 баллов.","audio және video тегтері мен олардың атрибуттарының қызметін қайталаңыз. Дұрыс жауаптар үшін 9 ұпайға дейін алуға болады."],links:[{label:["Открыть упражнение LearningApps","LearningApps жаттығуын ашу"],url:"https://learningapps.org/watch?v=pm6bj3btc26"}],points:9,images:[]},
+ {id:"project1",title:["Основное задание №1: сайт композитора","Негізгі тапсырма №1: композитор сайты"],description:["Создайте страницу о композиторе и добавьте собственные аудио- или видеоматериалы с помощью HTML.","Композитор туралы бет жасап, HTML көмегімен өз аудио немесе бейне материалдарыңызды қосыңыз."],links:[],points:0,images:[]},
+ {id:"project2",title:["Основное задание №2: сайт с помощью ИИ","Негізгі тапсырма №2: ЖИ көмегімен сайт"],description:["Улучшите страницу с помощью инструмента искусственного интеллекта, проверьте результат и убедитесь, что медиафайлы воспроизводятся.","Жасанды интеллект құралымен бетті жақсартып, нәтижені тексеріңіз және медиа файлдардың ойнатылатынына көз жеткізіңіз."],links:[{label:["Google Gemini","Google Gemini"],url:"https://gemini.google.com/"},{label:["Claude","Claude"],url:"https://claude.ai/"},{label:["ChatGPT","ChatGPT"],url:"https://chatgpt.com/"}],points:0,images:[]},
+ {id:"materials",title:["Дополнительные материалы","Қосымша материалдар"],description:["Полезные видео, презентация, таблица и инструменты для самостоятельной практики.","Өздік жұмысқа арналған пайдалы бейнелер, презентация, кесте және құралдар."],links:[{label:["Видео: аудио и видео в HTML","Бейне: HTML-дегі аудио және бейне"],url:"https://www.youtube.com/watch?v=ae_7JsgWLLY"},{label:["Презентация","Презентация"],url:"https://docs.google.com/presentation/d/1PUSGjzmsGZp4sRYA6vKk0I22s08PjVrxCuAm3AVoEl4/edit?usp=sharing"},{label:["Таблица","Кесте"],url:"https://docs.google.com/spreadsheets/d/1uk6l2yOgzATDRbqhbMQtAobp07WDZmCamsFQVv8jQaM/edit?gid=1469562070#gid=1469562070"},{label:["Gemini","Gemini"],url:"https://gemini.google.com/"},{label:["Gamma","Gamma"],url:"https://gamma.app/"},{label:["ChatGPT","ChatGPT"],url:"https://chatgpt.com/"}],points:0,images:[]},
+ {id:"criteria",title:["Критерии оценивания","Бағалау критерийлері"],description:["Учитель может изменить критерии и баллы. После выполнения задания отметьте карточку, чтобы сохранить свой прогресс.","Мұғалім бағалау критерийлері мен ұпайларды өзгерте алады. Тапсырманы орындаған соң үлгерімді сақтау үшін карточканы белгілеңіз."],links:[],points:0,images:[]}
+];
+let ASSIGNMENTS=JSON.parse(JSON.stringify(ASSIGNMENT_DEFAULTS));
 const isT=()=>!!window.TEACHER_MODE||/teacher/i.test(location.hash)||/[?&]teacher/i.test(location.search);
-const tabs=()=>isT()?["teacher"]:["lesson","lecture","test","reflect","send"];
+const tabs=()=>isT()?["lesson","lecture","assignments","test","reflect","teacher"]:["lesson","lecture","assignments","test","reflect"];
 let UID=null,TT="log";
 
-let L="ru",tab="lesson",S={name:"",done:[],ans:{},sub:false,r:{conf:[]}},TS={sort:"name"};
+let L="ru",tab="lesson",S={name:"",done:[],assignmentDone:[],ans:{},sub:false,r:{conf:[]}},TS={sort:"name"};
 const D={arr:[7,3,9,4],stack:[],queue:[],set:[],dict:[["Аружан","101"],["Данияр","202"]],msg:{}};
 const $=s=>document.querySelector(s),t=k=>T[L][k],li=a=>a[L==="kk"?1:0]||a[0],
 esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const tk=()=>LESSON.tasks.map(li);
+const safeHref=value=>{const href=String(value||"").trim();if(!href||/^[a-z][a-z0-9+.-]*:/i.test(href)&&!/^https?:\/\//i.test(href)||href.startsWith("//"))return "";return href};
+const tk=()=>ASSIGNMENTS.map(a=>li(a.title));
+const completedAssignments=()=>ASSIGNMENTS.filter(a=>S.assignmentDone.includes(a.id));
 const imageGallery=(images,caption="")=>(images||[]).map(src=>`<figure style="margin:16px 0"><img src="${esc(src)}" alt="${esc(caption||"Иллюстрация к уроку")}" loading="lazy" style="display:block;width:100%;max-height:460px;object-fit:cover;border-radius:14px"><figcaption class="mu" style="margin-top:6px">${esc(caption||"Иллюстрация к уроку")}</figcaption></figure>`).join("");
 const score=()=>QUIZ.reduce((s,q,i)=>s+(S.ans[i]===q.k?1:0),0);
 const pct=()=>Math.round(score()/QUIZ.length*100);
@@ -137,16 +148,24 @@ const lv=(p,lang)=>T[lang||L].lvl[p>=90?0:p>=70?1:p>=50?2:3];
 const col=p=>p>=90?"#059669":p>=70?"#2563eb":p>=50?"#d97706":"#dc2626";
 const scoreBox=(lb,p)=>`<div class="score" style="border-color:${col(p)}"><span class="mu">${lb}</span><div class="v" style="color:${col(p)}">${p} / 100 — ${lv(p)}</div><div class="bar" style="margin-top:8px"><i style="width:${p}%;background:${col(p)}"></i></div></div>`;
 const keep=fn=>{const y=window.scrollY;fn();window.scrollTo(0,y)};
-const stepDone=()=>[!!S.name,tk().length>0&&S.done.length>=tk().length,S.sub,rDone()];
-const doneTab=k=>({lesson:!!S.name&&S.done.length>=tk().length,test:S.sub,reflect:rDone()}[k]);
+const stepDone=()=>[!!S.name,ASSIGNMENTS.length>0&&completedAssignments().length>=ASSIGNMENTS.length,S.sub,rDone()];
+const doneTab=k=>({lesson:!!S.name,assignments:ASSIGNMENTS.length>0&&completedAssignments().length>=ASSIGNMENTS.length,test:S.sub,reflect:rDone()}[k]);
 function updProg(){const n=stepDone().filter(Boolean).length*25;$("#pg").style.width=n+"%";$("#pgn").textContent=n+"%"}
 
-function lessonV(){const p=tk().length?Math.round(S.done.length/tk().length*100):0;
+function lessonV(){
 return `<div class="hero"><div class="kicker">${t("lesson")}</div><h1>${esc(li(LESSON.topic))}</h1><div class="blocks"><i></i><i></i><i></i><i></i></div></div>
-${S.name?`<div class="ok">✅ ${t("joined")}: <b>${esc(S.name)}</b></div>`:`<div class="card join"><b>${t("join")}</b><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px"><input type="text" id="nm" maxlength="80" placeholder="${t("name")}" style="flex:1;min-width:200px"><button class="btn g" data-a="join">${t("here")}</button></div></div>`}
-<h2>${t("goals")}</h2>${LESSON.goals.map((g,i)=>`<div class="card goal"><span class="n">0${i+1}</span><span>${esc(li(g))}</span></div>`).join("")}
-<h2>${t("tasks")}</h2><div class="card"><div class="bar"><i style="width:${p}%"></i></div><div class="mu mono" style="margin-top:6px">${t("prog")}: ${S.done.length}/${tk().length}</div>
-${tk().map((x,i)=>`<div><label class="t"><input type="checkbox" data-a="chk" data-i="${i}" ${S.done.includes(i)?"checked":""}><span>${esc(x)}</span></label>${imageGallery(LESSON.taskImages&&LESSON.taskImages[i])}</div>`).join("")}</div>`}
+${isT()?`<div class="ok">Предпросмотр ученической страницы · редактирование доступно во вкладке «${t("teacher")}».</div>`:S.name?`<div class="ok">✅ ${t("joined")}: <b>${esc(S.name)}</b></div>`:`<div class="card join"><b>${t("join")}</b><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px"><input type="text" id="nm" maxlength="80" placeholder="${t("name")}" style="flex:1;min-width:200px"><button class="btn g" data-a="join">${t("here")}</button></div></div>`}
+<h2>${t("goals")}</h2>${LESSON.goals.map((g,i)=>`<div class="card goal"><span class="n">${String(i+1).padStart(2,"0")}</span><span>${esc(li(g))}</span></div>`).join("")}
+<div class="card join"><b>Практика по теме</b><p class="mu">Откройте вкладку «${t("assignments")}», чтобы выполнить задания, открыть материалы и сохранить отметки о выполнении.</p><button class="btn sm" data-tab="assignments">Перейти к заданиям →</button></div>`}
+
+function assignmentsV(){
+ const cards=ASSIGNMENTS.map((a,i)=>`<details class="card assignment" ${i===0?"open":""}><summary><span class="assignment-n">${String(i+1).padStart(2,"0")}</span><span>${esc(li(a.title))}</span><span class="assignment-points">${Number(a.points)>0?esc(a.points)+" балл.":"Практика"}</span></summary>
+ <p>${esc(li(a.description))}</p>${imageGallery(a.images,li(a.title))}
+ ${(a.links||[]).filter(x=>safeHref(x.url)).map(x=>`<a class="btn sm ghost" href="${esc(safeHref(x.url))}" target="_blank" rel="noopener noreferrer">${esc(li(x.label||["Открыть ссылку","Сілтемені ашу"]))} ↗</a>`).join("")}
+ ${!isT()&&S.name?`<label class="assignment-check"><input type="checkbox" data-a="assignmentDone" data-id="${esc(a.id)}" ${S.assignmentDone.includes(a.id)?"checked":""}><span>${S.assignmentDone.includes(a.id)?"Выполнено":"Отметить как выполненное"}</span></label>`:""}</details>`).join("");
+ const done=completedAssignments().length,p=ASSIGNMENTS.length?Math.round(done/ASSIGNMENTS.length*100):0;
+ return `<div class="kicker">${t("assignments")}</div><h2 class="pg">Практика и материалы</h2>${isT()?`<div class="ok">Предпросмотр ученика. Чтобы изменить карточки, откройте «${t("teacher")}» → «Тема и задания».</div>`:S.name?`<div class="card"><b>Ваш прогресс: ${done}/${ASSIGNMENTS.length}</b><div class="bar" style="margin-top:10px"><i style="width:${p}%"></i></div></div>`:`<div class="warn">${t("need")}</div>`}${cards}`
+}
 
 const cc=i=>"c"+(i%4);
 function demoHTML(n){const m=D.msg[n]||"&nbsp;",btn=(op,lb,cls)=>`<button class="btn sm ${cls||""}" data-a="demo" data-d="${n}" data-op="${op}">${lb}</button>`;
@@ -171,7 +190,8 @@ LECT.map(s=>`<div class="card lec"><h3>${esc(li(s.h))}</h3><p>${esc(li(s.p))}</p
 function review(){return QUIZ.map((q,i)=>{const ok=S.ans[i]===q.k;
 return `<div class="rev ${ok?"y":"n"}"><b class="mono">${i+1}.</b> ${esc(li(q.q))}<br>${ok?"✅ "+t("right"):"❌ "+t("wrong")+": <b>"+"ABCD"[q.k]+") "+esc(li(q.o[q.k]))+"</b>"}</div>`}).join("")}
 
-function testV(){if(!S.name)return `<div class="warn">${t("need")}</div>`;
+function testV(){if(!S.name&&!isT())return `<div class="warn">${t("need")}</div>`;
+if(isT())return `<div class="kicker">${t("test")}</div><div class="ok">Предпросмотр теста для ученика. Настройте вопросы во вкладке «Учитель» → «Тема и задания».</div>`+QUIZ.map((q,i)=>`<div class="card qcard"><b class="qn">${t("q")} ${i+1}/${QUIZ.length}</b><div class="qt">${esc(li(q.q))}</div>${q.o.map((o,j)=>`<div class="opt"><i>${"ABCD"[j]}</i><span>${esc(li(o))}</span></div>`).join("")}</div>`).join("");
 if(S.sub)return `<div class="kicker">${t("test")}</div><div class="ok" style="font-size:21px">${t("done")}</div>`+scoreBox(t("res"),pct())+review();
 const n=Object.keys(S.ans).length;
 return `<div class="kicker">${t("test")}</div><div class="qbar"><div class="mu mono">${t("answered")}: ${n}/${QUIZ.length}</div><div class="bar" style="margin-top:4px"><i style="width:${n/QUIZ.length*100}%"></i></div></div>`+
@@ -182,13 +202,15 @@ const c=Math.min(40,["r3","r2","r1","hard","apply","exit"].reduce((x,f)=>{const 
 return {a,m,c,total:a+m+c}}
 function rDone(){const r=S.r;const filled=["r3","r2","r1","hard","apply","exit"].filter(f=>(r[f]||"").trim().length>0).length;return !!(r.mood&&r.und&&filled>=3)}
 
-function reflV(){if(!S.name)return `<div class="warn">${t("need")}</div>`;const r=S.r;
-return `<div class="kicker">${t("reflect")}</div><h2>${t("mood")}</h2><div class="emo">${MO.map((m,i)=>`<button data-a="mood" data-n="${i+1}" class="${r.mood===i+1?"on":""}">${m}</button>`).join("")}</div>
-<h2>${t("und")}</h2><div class="emo">${[1,2,3,4,5].map(n=>`<button data-a="und" data-n="${n}" class="${r.und===n?"on":""}" style="font-size:22px;min-width:56px">${n}</button>`).join("")}</div>
-<h2>${t("conf")}</h2><div class="chips">${CK.map(k=>`<label class="chip ${r.conf.includes(k)?"on":""}"><input type="checkbox" data-a="conf" data-k="${k}" ${r.conf.includes(k)?"checked":""}>${t(k)}</label>`).join("")}</div>
+function reflV(){if(!S.name&&!isT())return `<div class="warn">${t("need")}</div>`;
+if(isT())return `<div class="kicker">${t("reflect")}</div><div class="ok">Предпросмотр вопросов рефлексии для ученика. Измените формулировки в редакторе учителя.</div><div class="card"><b>${esc(rlab("mood"))}</b><p>😫　😕　😐　🙂　🤩</p></div><div class="card"><b>${esc(rlab("und"))}</b><p>1　2　3　4　5</p></div>${RF.map(([k])=>`<div class="card"><b>${esc(rlab(k))}</b><p class="mu">Ответ ученика</p></div>`).join("")}`;
+const r=S.r;
+return `<div class="kicker">${t("reflect")}</div><h2>${esc(rlab("mood"))}</h2><div class="emo">${MO.map((m,i)=>`<button data-a="mood" data-n="${i+1}" class="${r.mood===i+1?"on":""}">${m}</button>`).join("")}</div>
+<h2>${esc(rlab("und"))}</h2><div class="emo">${[1,2,3,4,5].map(n=>`<button data-a="und" data-n="${n}" class="${r.und===n?"on":""}" style="font-size:22px;min-width:56px">${n}</button>`).join("")}</div>
+<h2>${esc(rlab("conf"))}</h2><div class="chips">${CK.map(k=>`<label class="chip ${r.conf.includes(k)?"on":""}"><input type="checkbox" data-a="conf" data-k="${k}" ${r.conf.includes(k)?"checked":""}>${t(k)}</label>`).join("")}</div>
 <h2>3 · 2 · 1</h2>
 ${[["l3","r3"],["l2","r2"],["l1","r1"],["hard","hard"],["apply","apply"],["exit","exit"]].map(([k,f])=>`<label>${rlab(k)}</label><textarea data-f="${f}">${esc(r[f]||"")}</textarea>`).join("")}
-<div id="rbox" style="margin-top:20px">${rbox()}</div>`}
+<div id="rbox" style="margin-top:20px">${rbox()}</div><h2>${t("send")}</h2>${sendV()}`}
 function rbox(){const ok=rDone();return scoreBox(t("rres"),rsc().total)+`<div class="${ok?"ok":"warn"}">${ok?t("shareOk"):t("shareNeed")}</div><a id="wab" class="btn g ${ok?"":"off"}" target="_blank" rel="noopener" href="${ok?waLink(repRefl()):"#"}">${t("share")}</a>`}
 
 function repRefl(){const r=S.r,q=QUIZ.length,x=rsc();
@@ -199,7 +221,7 @@ return ["🪞 РЕФЛЕКСИЯ — "+LESSON.topic[0],"👤 "+S.name,
 "📊 Балл за рефлексию: "+x.total+"/100 — "+lv(x.total,"ru"),
 "3 узнал(а): "+(r.r3||"—"),"2 интересно: "+(r.r2||"—"),"1 вопрос: "+(r.r1||"—"),
 "⚠️ Сложно: "+(r.hard||"—"),"🌍 Где встречал(а): "+(r.apply||"—"),"🎫 Итог: "+(r.exit||"—")].join("\n")}
-function repAll(){return repRefl()+"\n\n✅ Задачи: "+S.done.length+"/"+tk().length+(S.sub?"\n🔤 Ответы: "+QUIZ.map((_,i)=>(i+1)+"-"+(S.ans[i]==null?"—":"ABCD"[S.ans[i]])).join(" "):"")}
+function repAll(){return repRefl()+"\n\n✅ Задачи: "+completedAssignments().length+"/"+tk().length+(S.sub?"\n🔤 Ответы: "+QUIZ.map((_,i)=>(i+1)+"-"+(S.ans[i]==null?"—":"ABCD"[S.ans[i]])).join(" "):"")}
 const waLink=x=>"https://wa.me/"+TEACHER_PHONE+"?text="+encodeURIComponent(x);
 
 function sendV(){if(!S.name)return `<div class="warn">${t("need")}</div>`;const x=repAll(),e=encodeURIComponent(x);
@@ -209,13 +231,22 @@ return `<div class="kicker">${t("send")}</div><p>${t("sd")}</p><a class="btn g" 
 /* ---------- Вкладка учителя: разбор отчётов из WhatsApp ---------- */
 const rosterGet=()=>{try{return JSON.parse(localStorage.getItem("lb_students")||"{}")}catch(e){return {}}};
 const rosterSet=o=>{try{localStorage.setItem("lb_students",JSON.stringify(o))}catch(e){}};
+function restoreStudent(){
+ const name=(S.name||"").trim(),key=name.toLocaleLowerCase("ru").replace(/\s+/g," "),r=rosterGet()[key];
+ if(!r)return;
+ S.done=Array.isArray(r.done)?r.done:[];
+ S.assignmentDone=Array.isArray(r.assignmentDone)?r.assignmentDone:[];
+ if(r.testSubmitted&&r.ans){S.ans=r.ans;S.sub=true}
+ S.r.mood=r.mood||undefined;S.r.und=r.und||undefined;S.r.conf=Array.isArray(r.conf)?r.conf:[];
+ Object.entries(r.rt||{}).forEach(([f,v])=>{S.r[f]=v})
+}
 function saveStudent(){
  const name=(S.name||"").trim(); if(!name)return;
  const all=rosterGet(), key=name.toLocaleLowerCase("ru").replace(/\\s+/g," ");
  const old=all[key]||{name};
  all[key]=Object.assign(old,{
   name,
-  tasksDone:S.done.length,
+  tasksDone:completedAssignments().length,
   tasksTotal:tk().length,
   testSubmitted:!!S.sub,
   testScore:S.sub?pct():null,
@@ -223,7 +254,7 @@ function saveStudent(){
   testTotal:S.sub?QUIZ.length:null,
   reflectionDone:rDone(),conf:(S.r.conf||[]).slice(),
   reflectionScore:rDone()?rsc().total:null,
-  done:S.done.slice(),mood:S.r.mood||null,und:S.r.und||null,rt:Object.fromEntries(RF.map(([k,f])=>[f,S.r[f]||""])),
+  done:S.done.slice(),assignmentDone:S.assignmentDone.slice(),mood:S.r.mood||null,und:S.r.und||null,rt:Object.fromEntries(RF.map(([k,f])=>[f,S.r[f]||""])),
   updatedAt:new Date().toLocaleString("ru-RU")
  });
  rosterSet(all);cloudSave(all[key]);
@@ -291,16 +322,22 @@ function csv(){const q=s=>'"'+String(s??"").replace(/"/g,'""')+'"';
 const cl=x=>JSON.parse(JSON.stringify(x));
 let PEND=null;function sure(b,k,msg){if(PEND===k){PEND=null;return true}PEND=k;const o=b.textContent;b.textContent=msg||"Точно? Нажмите ещё раз";setTimeout(()=>{if(PEND===k){PEND=null;b.textContent=o}},4000);return false}
 const RF=[["l3","r3"],["l2","r2"],["l1","r1"],["hard","hard"],["apply","apply"],["exit","exit"]];
-const DEF=cl({LESSON,LECT,QUIZ});
-const CONTENT_VERSION=3;
+const DEF=cl({LESSON,LECT,QUIZ,ASSIGNMENTS});
+const CONTENT_VERSION=5;
 let RLB={},ED=null,DB=null,CAN=false,CLOUD=[],_ct,IMAGE_BUSY=0;
 const rlab=k=>RLB[k]?li(RLB[k]):t(k);
 function applyContent(c){if(!c)return;
  const oldDefault=c.LESSON&&c.LESSON.topic&&c.LESSON.topic[0]==="Тема: Контейнеры"&&c.LECT&&c.LECT[0]&&c.LECT[0].h&&c.LECT[0].h[0]==="1. Что такое контейнер данных";
- if((Number(c.version)||0)<CONTENT_VERSION&&oldDefault){LESSON=cl(DEF.LESSON);LECT=cl(DEF.LECT);QUIZ=cl(DEF.QUIZ);RLB=c.RLB||{};return}
+ if((Number(c.version)||0)<CONTENT_VERSION&&oldDefault){LESSON=cl(DEF.LESSON);LECT=cl(DEF.LECT);QUIZ=cl(DEF.QUIZ);ASSIGNMENTS=cl(DEF.ASSIGNMENTS);RLB=c.RLB||{};return}
  if(c.LESSON){LESSON=c.LESSON;LESSON.taskImages=Array.isArray(LESSON.taskImages)?LESSON.taskImages:[];while(LESSON.taskImages.length<LESSON.tasks.length)LESSON.taskImages.push([]);LESSON.taskImages.length=LESSON.tasks.length}
  if(c.LECT){const legacy=(Number(c.version)||0)<CONTENT_VERSION;LECT=c.LECT.map((s,i)=>{const images=Array.isArray(s.images)?s.images.slice():[];const photo=LECTURE_PHOTOS[i%LECTURE_PHOTOS.length];if(legacy&&!images.includes(photo))images.push(photo);return Object.assign({},s,{images})})}
  if(Array.isArray(c.QUIZ))QUIZ=c.QUIZ;
+ const contentVersion=Number(c.version)||0;
+ ASSIGNMENTS=Array.isArray(c.ASSIGNMENTS)?c.ASSIGNMENTS.map((a,i)=>{
+  const def=DEF.ASSIGNMENTS.find(x=>x.id===a.id);
+  const links=Array.isArray(a.links)?a.links.map(x=>Object.assign({},x,{label:Array.isArray(x.label)?x.label:["Открыть ссылку","Сілтемені ашу"],url:String(x.url||"")})):a.url?[{label:Array.isArray(a.urlLabel)?a.urlLabel:["Открыть ссылку","Сілтемені ашу"],url:String(a.url)}]:contentVersion<CONTENT_VERSION&&def?cl(def.links):[];
+  return Object.assign({},a,{id:String(a.id||"assignment-"+i),title:Array.isArray(a.title)?a.title:["",""],description:Array.isArray(a.description)?a.description:["",""],links,images:Array.isArray(a.images)?a.images:[]})
+ }):cl(DEF.ASSIGNMENTS);
  RLB=c.RLB||{}}
 const sid=n=>"s"+Array.from(String(n).toLowerCase().replace(/\s+/g," ")).map(c=>c.codePointAt(0).toString(36)).join("_").slice(0,150);
 function cloudSave(r){if(!DB||!r)return;clearTimeout(_ct);_ct=setTimeout(()=>{DB.doc("students/"+(UID||sid(r.name))).set(r).catch(()=>{})},600)}
@@ -312,28 +349,30 @@ async function persist(c){const m=x=>{const e=$("#edmsg");if(e)e.textContent=" "
  else m("Сохранено только на этом устройстве")}
 async function initCloud(){try{
  try{applyContent(JSON.parse(localStorage.getItem("lb_content")||"null"))}catch(e){}
+ if(S.name&&!window.TEACHER_MODE)restoreStudent();
  if(!window.claude||!claude.use){render();return}
  const u=await claude.use("user");if(u){try{CAN=await u.canEdit()}catch(e){}try{UID=await u.id()}catch(e){}}
  DB=await claude.use("db");
- if(DB&&S.name&&!window.TEACHER_MODE){try{const d=await DB.doc("students/"+(UID||sid(S.name))).get();if(d.exists){const x=d.data();S.done=x.done||[];if(x.testSubmitted&&x.ans){S.ans=x.ans;S.sub=true}S.r.mood=x.mood||undefined;S.r.und=x.und||undefined;S.r.conf=x.conf||[];Object.entries(x.rt||{}).forEach(([f,v])=>{S.r[f]=v})}}catch(e){}saveStudent()}
+ if(DB&&S.name&&!window.TEACHER_MODE){try{const d=await DB.doc("students/"+(UID||sid(S.name))).get();if(d.exists){const x=d.data();S.done=x.done||[];S.assignmentDone=x.assignmentDone||[];if(x.testSubmitted&&x.ans){S.ans=x.ans;S.sub=true}S.r.mood=x.mood||undefined;S.r.und=x.und||undefined;S.r.conf=x.conf||[];Object.entries(x.rt||{}).forEach(([f,v])=>{S.r[f]=v})}}catch(e){}saveStudent()}
  if(DB){
   DB.doc("lesson/content").onSnapshot(s=>{if(s.exists){try{applyContent(JSON.parse(s.data().json))}catch(e){}}softRender()},()=>{});
   if(CAN)DB.collection("students").onSnapshot(q=>{CLOUD=q.docs.map(d=>d.data());if(tab==="teacher")softRender()},()=>{});
  }
  render();
 }catch(e){}}
-function taskCell(r){const n=r.done?r.done.length:(r.tasksDone||0);
- return `<b>${n}/${tk().length}</b>`+(r.done?tk().map((x,i)=>`<div class="mu" style="font-size:14px;line-height:1.35">${r.done.includes(i)?"✅":"⬜"} ${esc(x)}</div>`).join(""):"")}
+function taskCell(r){const done=Array.isArray(r.assignmentDone)?r.assignmentDone:[],n=ASSIGNMENTS.filter(a=>done.includes(a.id)).length;
+ return `<b>${n}/${tk().length}</b>`+tk().map((x,i)=>`<div class="mu" style="font-size:14px;line-height:1.35">${done.includes(ASSIGNMENTS[i]&&ASSIGNMENTS[i].id)?"✅":"⬜"} ${esc(x)}</div>`).join("")}
 function reflDet(r){if(!r.rt)return "";
  return `<details style="margin-top:6px"><summary class="mu">ответы</summary><div style="font-size:14px">${r.mood?MO[r.mood-1]+" ":""}${r.und?"понимание "+r.und+"/5":""}${RF.map(([k,f])=>r.rt[f]?`<div><b>${esc(rlab(k))}:</b> ${esc(r.rt[f])}</div>`:"").join("")}</div></details>`}
 function edInit(){const lesson=cl(LESSON),lecture=LECT.map(s=>Object.assign({},cl(s),{images:Array.isArray(s.images)?cl(s.images):[]}));
  if(!Array.isArray(lesson.taskImages))lesson.taskImages=[];
  while(lesson.taskImages.length<lesson.tasks.length)lesson.taskImages.push([]);
  lesson.taskImages=lesson.taskImages.slice(0,lesson.tasks.length).map(images=>Array.isArray(images)?images:[]);
- ED={LESSON:lesson,LECT:lecture,QUIZ:cl(QUIZ),RLB:cl(Object.fromEntries(RF.map(([k])=>[k,RLB[k]||[T.ru[k],T.kk[k]]])))}
+ ED={LESSON:lesson,LECT:lecture,QUIZ:cl(QUIZ),ASSIGNMENTS:cl(ASSIGNMENTS),RLB:cl(Object.assign(Object.fromEntries(RF.map(([k])=>[k,RLB[k]||[T.ru[k],T.kk[k]]])),{mood:RLB.mood||[T.ru.mood,T.kk.mood],und:RLB.und||[T.ru.und,T.kk.und],conf:RLB.conf||[T.ru.conf,T.kk.conf]}))}
 }
 const ei=(p,v,ta)=>ta?`<textarea data-p="${p}" style="min-height:70px">${esc(v||"")}</textarea>`:`<input type="text" data-p="${p}" value="${esc(v||"")}">`;
 const pair=(lb,p,v,ta)=>`<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:8px"><div><span class="mu">РУС · ${lb}</span>${ei(p+".0",v[0],ta)}</div><div><span class="mu">ҚАЗ · ${lb}</span>${ei(p+".1",v[1],ta)}</div></div>`;
+function linkEditor(links,i){return (links||[]).map((link,j)=>`<div class="card"><b>Ссылка ${j+1}</b>${pair("название кнопки","ASSIGNMENTS."+i+".links."+j+".label",link.label)}<label>Адрес</label>${ei("ASSIGNMENTS."+i+".links."+j+".url",link.url)}<button class="btn sm ghost" data-a="edDelLink" data-i="${i}" data-j="${j}">Удалить ссылку</button></div>`).join("")+`<button class="btn sm ghost" data-a="edAddLink" data-i="${i}">+ Добавить ссылку</button>`}
 function imageEditor(images,type,i){return `<div style="margin:10px 0"><label>Фото (можно выбрать несколько)</label><input type="file" accept="image/*" multiple data-image-${type}="${i}">${(images||[]).map((src,j)=>`<div style="display:inline-block;vertical-align:top;margin:8px"><img src="${esc(src)}" alt="" style="display:block;width:150px;height:110px;object-fit:contain;border:1px solid var(--line);border-radius:8px"><button class="btn sm ghost" data-a="edDelImage" data-type="${type}" data-i="${i}" data-j="${j}">Удалить фото</button></div>`).join("")}</div>`}
 function compressImage(file){return new Promise((resolve,reject)=>{
  if(!file.type.startsWith("image/")){reject(new Error("Выберите файл изображения."));return}
@@ -355,35 +394,41 @@ function editorV(){
  const sec=(h,x)=>`<div class="card"><b>${h}</b>${x}</div>`;
  return `<h2>Редактор урока</h2><div class="mu">Измените текст и нажмите «Сохранить урок»: у учеников откроется новая версия.</div>`+
  sec("Тема",pair("тема","LESSON.topic",ED.LESSON.topic))+
- sec("Цели",ED.LESSON.goals.map((g,i)=>pair("цель","LESSON.goals."+i,g)).join(""))+
- sec("Задания",ED.LESSON.tasks.map((g,i)=>`<div style="border-top:1px solid var(--line);padding-top:10px;margin-top:10px">${pair("задание "+(i+1),"LESSON.tasks."+i,g)}${imageEditor(ED.LESSON.taskImages[i],"task",i)}<button class="btn sm ghost" data-a="edDelTask" data-i="${i}">Удалить задание</button></div>`).join("")+`<button class="btn sm" style="margin-top:10px" data-a="edAddTask">+ Добавить задание</button>`)+
+ sec("Цели",ED.LESSON.goals.map((g,i)=>`<div style="border-top:1px solid var(--line);padding-top:10px;margin-top:10px">${pair("цель","LESSON.goals."+i,g)}<button class="btn sm ghost" data-a="edDelGoal" data-i="${i}">Удалить цель</button></div>`).join("")+`<button class="btn sm" data-a="edAddGoal">+ Добавить цель</button>`)+
  sec("Лекция",ED.LECT.map((s,i)=>`<div style="border-top:1px solid var(--line);padding-top:10px;margin-top:10px">${pair("заголовок","LECT."+i+".h",s.h)}${pair("текст","LECT."+i+".p",s.p,1)}<span class="mu">Код (необязательно)</span>${ei("LECT."+i+".code",s.code,1)}${imageEditor(s.images,"lecture",i)}<button class="btn sm ghost" data-a="edDelSec" data-i="${i}">Удалить раздел</button></div>`).join("")+`<button class="btn sm" style="margin-top:10px" data-a="edAddSec">+ Добавить раздел</button>`)+
+ sec("Задания",`<p class="mu">Ученик видит карточки, описание, фото, ссылку и баллы. Отметки выполнения сохраняются отдельно для каждого ученика.</p>`+
+ ED.ASSIGNMENTS.map((a,i)=>`<div class="card"><b>Карточка ${i+1}</b>${pair("название","ASSIGNMENTS."+i+".title",a.title)}${pair("описание","ASSIGNMENTS."+i+".description",a.description,1)}${linkEditor(a.links,i)}<label>Баллы</label><input type="number" min="0" max="1000" data-p="ASSIGNMENTS.${i}.points" value="${esc(a.points||0)}">${imageEditor(a.images,"assignment",i)}<button class="btn sm ghost" data-a="edDelAssignment" data-i="${i}">Удалить карточку</button></div>`).join("")+
+ `<button class="btn sm" data-a="edAddAssignment">+ Добавить карточку задания</button>`)+
  sec("Вопросы теста",`<p class="mu">Можно изменить формулировку, четыре варианта и правильный ответ, а также добавить или удалить вопрос.</p>`+
  ED.QUIZ.map((q,i)=>`<div class="card"><b>Вопрос ${i+1}</b>${pair("вопрос","QUIZ."+i+".q",q.q,1)}${q.o.map((o,j)=>pair("вариант "+("ABCD"[j]),"QUIZ."+i+".o."+j,o)).join("")}<label>Правильный ответ</label><select data-p="QUIZ.${i}.k">${q.o.map((_,j)=>`<option value="${j}" ${q.k===j?"selected":""}>${"ABCD"[j]}</option>`).join("")}</select><button class="btn sm ghost" data-a="edDelQuestion" data-i="${i}">Удалить вопрос</button></div>`).join("")+
  `<button class="btn sm" data-a="edAddQuestion">+ Добавить вопрос</button>`)+
- sec("Вопросы рефлексии",RF.map(([k])=>pair("вопрос","RLB."+k,ED.RLB[k])).join(""))+
- `<button class="btn g" data-a="edSave">💾 Сохранить урок и тест</button><button class="btn ghost" data-a="edReset">Вернуть исходный</button><span id="edmsg" class="mu"></span>`}
+ sec("Вопросы рефлексии",pair("настроение","RLB.mood",ED.RLB.mood)+pair("понимание темы","RLB.und",ED.RLB.und)+pair("уверенность","RLB.conf",ED.RLB.conf)+RF.map(([k])=>pair("вопрос","RLB."+k,ED.RLB[k])).join(""))+
+ `<button class="btn g" data-a="edSave">💾 Сохранить все изменения</button><button class="btn ghost" data-a="edReset">Вернуть исходный</button><span id="edmsg" class="mu"></span>`}
 
 function render(){const TB=tabs();document.body.classList.toggle("tm",isT());
 $("#nav").style.gridTemplateColumns=`repeat(${TB.length},1fr)`;
 $("#nav").innerHTML=TB.map((k,i)=>`<button data-tab="${k}" class="${k===tab?"on":""} ${doneTab(k)?"dn":""}"><b>${k==="teacher"?"★":doneTab(k)?"✓":i+1}</b>${t(k)}</button>`).join("");
-document.documentElement.lang=L;const current=isT()?"teacher":TB.includes(tab)?tab:"lesson";
-$("#v").innerHTML={lesson:lessonV,lecture:lectureV,test:testV,reflect:reflV,send:sendV,teacher:teacherV}[current]();updProg()}
+document.documentElement.lang=L;const current=TB.includes(tab)?tab:"lesson";
+$("#v").innerHTML={lesson:lessonV,lecture:lectureV,assignments:assignmentsV,test:testV,reflect:reflV,teacher:teacherV}[current]();updProg()}
 
 document.addEventListener("click",e=>{const b=e.target.closest("button,input");if(!b)return;const d=b.dataset;
 if(d.l){L=d.l;document.querySelectorAll(".lang button").forEach(x=>x.classList.toggle("on",x.dataset.l===L));keep(render);return}
 if(d.tab){tab=d.tab;render();window.scrollTo(0,0);return}
 if(d.a==="join"){const n=$("#nm").value.trim();if(n){S.name=n;saveStudent();render()}return}
-if(d.a==="chk"){const i=+d.i;S.done=b.checked?[...new Set([...S.done,i])]:S.done.filter(x=>x!==i);saveStudent();keep(render);return}
+if(d.a==="assignmentDone"){const id=d.id;S.assignmentDone=b.checked?[...new Set([...S.assignmentDone,id])]:S.assignmentDone.filter(x=>x!==id);saveStudent();keep(render);return}
 if(d.a==="ans"){S.ans[d.i]=+d.j;keep(render);return}
 if(d.a==="sub"){if(!sure(b,"sub",Object.keys(S.ans).length<QUIZ.length?t("unans"):t("sure")))return;S.sub=true;saveStudent();render();window.scrollTo(0,0);return}
 if(d.a==="mood"){S.r.mood=+d.n;saveStudent();keep(render);return}
 if(d.a==="und"){S.r.und=+d.n;saveStudent();keep(render);return}
 if(d.a==="conf"){const c=S.r.conf;S.r.conf=b.checked?[...new Set([...c,d.k])]:c.filter(x=>x!==d.k);saveStudent();keep(render);return}
 if(d.a==="demo"){demoOp(d.d,d.op,+d.i);keep(render);const f=$("#in-"+d.d)||$("#in-k");if(f&&d.op!=="idx"&&d.op!=="get")f.focus({preventScroll:true});return}
-if(d.a==="edAddTask"){ED.LESSON.tasks.push(["",""]);ED.LESSON.taskImages.push([]);keep(render);return}
-if(d.a==="edDelTask"){ED.LESSON.tasks.splice(+d.i,1);ED.LESSON.taskImages.splice(+d.i,1);keep(render);return}
-if(d.a==="edDelImage"){const images=d.type==="task"?ED.LESSON.taskImages[+d.i]:ED.LECT[+d.i].images;images.splice(+d.j,1);keep(render);return}
+if(d.a==="edAddGoal"){ED.LESSON.goals.push(["",""]);keep(render);return}
+if(d.a==="edDelGoal"){ED.LESSON.goals.splice(+d.i,1);keep(render);return}
+if(d.a==="edDelImage"){const images=d.type==="assignment"?ED.ASSIGNMENTS[+d.i].images:d.type==="task"?ED.LESSON.taskImages[+d.i]:ED.LECT[+d.i].images;images.splice(+d.j,1);keep(render);return}
+if(d.a==="edAddAssignment"){ED.ASSIGNMENTS.push({id:"a-"+Date.now(),title:["",""],description:["",""],links:[],points:0,images:[]});keep(render);return}
+if(d.a==="edDelAssignment"){ED.ASSIGNMENTS.splice(+d.i,1);keep(render);return}
+if(d.a==="edAddLink"){ED.ASSIGNMENTS[+d.i].links.push({label:["",""],url:""});keep(render);return}
+if(d.a==="edDelLink"){ED.ASSIGNMENTS[+d.i].links.splice(+d.j,1);keep(render);return}
 if(d.a==="edAddSec"){ED.LECT.push({h:["",""],p:["",""],images:[]});keep(render);return}
 if(d.a==="edDelSec"){if(sure(b,"ds"+d.i,"Точно удалить? Нажмите ещё раз")){ED.LECT.splice(+d.i,1);keep(render)}return}
 if(d.a==="edAddQuestion"){ED.QUIZ.push({q:["",""],k:0,o:[["",""],["",""],["",""],["",""]]});keep(render);return}
@@ -391,8 +436,12 @@ if(d.a==="edDelQuestion"){if(ED.QUIZ.length<=1){$("#edmsg").textContent="В те
 if(d.a==="edSave"){if(IMAGE_BUSY){$("#edmsg").textContent="Дождитесь окончания обработки фотографий.";return}
  const invalid=ED.QUIZ.findIndex(q=>!q.q.every(x=>x.trim())||!q.o.every(o=>o.every(x=>x.trim()))||!Number.isInteger(q.k)||q.k<0||q.k>=q.o.length);
  if(!ED.QUIZ.length||invalid!==-1){$("#edmsg").textContent=invalid===-1?"В тесте должен быть хотя бы один вопрос.":"Заполните вопрос и все четыре варианта в вопросе "+(invalid+1)+".";return}
+ const emptyAssignment=ED.ASSIGNMENTS.findIndex(a=>!a.title.every(x=>x.trim())||!a.description.every(x=>x.trim())||a.links.some(x=>x.url&&(!safeHref(x.url)||!x.label.every(y=>y.trim())))||!Number.isFinite(Number(a.points))||Number(a.points)<0);
+ if(emptyAssignment!==-1){$("#edmsg").textContent="Проверьте название, описание, ссылку и баллы карточки задания "+(emptyAssignment+1)+".";return}
+ const emptyGoal=ED.LESSON.goals.findIndex(g=>!g.every(x=>x.trim()));
+ if(emptyGoal!==-1){$("#edmsg").textContent="Заполните цели урока на русском и казахском языке.";return}
  const c=cl(ED);c.version=CONTENT_VERSION;applyContent(cl(c));persist(c);return}
-if(d.a==="edReset"){if(sure(b,"rst","Точно вернуть? Нажмите ещё раз")){const c={LESSON:cl(DEF.LESSON),LECT:cl(DEF.LECT),QUIZ:cl(DEF.QUIZ),RLB:{},version:CONTENT_VERSION};applyContent(cl(c));ED=null;persist(c);keep(render)}return}
+if(d.a==="edReset"){if(sure(b,"rst","Точно вернуть? Нажмите ещё раз")){const c={LESSON:cl(DEF.LESSON),LECT:cl(DEF.LECT),QUIZ:cl(DEF.QUIZ),ASSIGNMENTS:cl(DEF.ASSIGNMENTS),RLB:{},version:CONTENT_VERSION};applyContent(cl(c));ED=null;persist(c);keep(render)}return}
 if(d.a==="tt"){TT=d.k;keep(render);return}
 if(d.a==="resetAll"){if(sure(b,"ra","Точно удалить всех учеников? Нажмите ещё раз")){DB.collection("students").get().then(q=>Promise.all(q.docs.map(x=>DB.doc("students/"+x.id).delete()))).then(()=>{rosterSet({});CLOUD=[];keep(render)}).catch(()=>{})}return}
 if(d.a==="tsort"){TS.sort=d.s;keep(render);return}
@@ -410,12 +459,12 @@ if(d.a==="tclear"){lsSet("");keep(render);return}
 if(d.a==="copy"){const ta=$("#rp");ta.select();let ok=false;try{ok=document.execCommand("copy")}catch(x){}
 if(!ok&&navigator.clipboard)navigator.clipboard.writeText(ta.value).catch(()=>{});b.textContent=t("copied")}});
 document.addEventListener("input",e=>{const d=e.target.dataset;
-if(d.p){const k=d.p.split("."),last=k.pop();let o=ED;k.forEach(x=>o=o[x]);o[last]=d.p.endsWith(".k")?Number(e.target.value):e.target.value;return}
+if(d.p){const k=d.p.split("."),last=k.pop();let o=ED;k.forEach(x=>o=o[x]);o[last]=d.p.endsWith(".k")||d.p.endsWith(".points")?Number(e.target.value):e.target.value;return}
 if(e.target.id==="chat"){lsSet(e.target.value);$("#tres").innerHTML=teacherRes();return}
 if(d.f){S.r[d.f]=e.target.value;saveStudent();const bx=$("#rbox");if(bx)bx.innerHTML=rbox();updProg()}});
-document.addEventListener("change",async e=>{const input=e.target,d=input.dataset,type=d.imageTask!==undefined?"task":d.imageLecture!==undefined?"lecture":null;
+document.addEventListener("change",async e=>{const input=e.target,d=input.dataset,type=d.imageTask!==undefined?"task":d.imageLecture!==undefined?"lecture":d.imageAssignment!==undefined?"assignment":null;
  if(!type||!input.files||!input.files.length)return;
- const index=Number(type==="task"?d.imageTask:d.imageLecture),files=Array.from(input.files),images=type==="task"?ED.LESSON.taskImages[index]:ED.LECT[index].images;
+ const index=Number(type==="task"?d.imageTask:type==="lecture"?d.imageLecture:d.imageAssignment),files=Array.from(input.files),images=type==="task"?ED.LESSON.taskImages[index]:type==="lecture"?ED.LECT[index].images:ED.ASSIGNMENTS[index].images;
  IMAGE_BUSY++;const status=$("#edmsg");if(status)status.textContent=" Обрабатываются фотографии…";
  try{for(const file of files){const src=await compressImage(file);images.push(src);
    if(JSON.stringify(ED).length>175000){images.pop();throw new Error("Превышен допустимый размер урока. Удалите часть фото или выберите изображения меньшего размера.")}}

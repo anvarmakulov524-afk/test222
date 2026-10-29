@@ -2,10 +2,10 @@
 <html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Аудио и видео в HTML — урок</title>
 <style>
-:root{--bg:#f5f7fb;--panel:#fff;--soft:#eef2ff;--line:#dfe5f1;--tx:#14213d;--mu:#55658a;--ac:#4f46e5;--ac2:#4338ca;--g:#047857;--gl:#10b981;--pink:#ec4899;--amb:#f59e0b;--sky:#0ea5e9;--red:#dc2626}
+:root{--bg:#f3f5ef;--panel:#fffefa;--soft:#e0f2ed;--line:#d5e2dc;--tx:#18312d;--mu:#58716a;--ac:#0f766e;--ac2:#115e59;--g:#15803d;--gl:#22c55e;--pink:#be185d;--amb:#d97706;--sky:#0284c7;--red:#b91c1c}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;font:19px/1.65 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--tx);background:radial-gradient(900px 480px at 100% -10%,rgba(79,70,229,.10),transparent 60%),radial-gradient(700px 400px at -5% 5%,rgba(16,185,129,.09),transparent 60%),var(--bg);min-height:100vh}
+body{margin:0;font:19px/1.65 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--tx);background:radial-gradient(900px 480px at 100% -10%,rgba(15,118,110,.12),transparent 60%),radial-gradient(700px 400px at -5% 5%,rgba(217,119,6,.08),transparent 60%),var(--bg);min-height:100vh}
 .mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
 .wrap{max-width:920px;margin:0 auto;padding:0 16px}
 header{padding:22px 0 8px}
@@ -91,7 +91,8 @@ td{padding:10px 12px;border-top:1px solid var(--line);vertical-align:top}
 .qrow{display:flex;gap:10px;align-items:center;margin:8px 0;font-size:16px}.qrow .qn2{width:34px;font:800 14px ui-monospace,monospace;color:var(--mu);flex:none}
 .qrow .qtx{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.qrow .bar{width:110px;flex:none}.qrow .pc{width:48px;text-align:right;font:800 14px ui-monospace,monospace}
 .sortb{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:12px 0}
-body.tm .prog,body.tm nav{display:none}body.tm .brand:after{content:" · учитель";color:var(--pink)}.sub{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}.live{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--gl);margin-right:6px;animation:fl 1.6s infinite}</style></head><body>
+body.tm .prog{display:none}body.tm .brand:after{content:" · учитель";color:var(--pink)}.sub{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}.live{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--gl);margin-right:6px;animation:fl 1.6s infinite}
+.assignment summary{display:flex;gap:12px;align-items:center;cursor:pointer;font-weight:750;list-style:none}.assignment summary::-webkit-details-marker{display:none}.assignment summary:after{content:"＋";margin-left:auto;color:var(--ac);font-weight:900}.assignment[open] summary:after{content:"−"}.assignment summary span:nth-child(2){flex:1}.assignment-n{font:800 16px ui-monospace,monospace;color:var(--ac)}.assignment-points{font-size:14px;color:var(--mu);white-space:nowrap}.assignment-check{display:flex;align-items:center;gap:10px;margin-top:18px}.assignment-check input{width:22px;height:22px;accent-color:var(--g)}@media(max-width:560px){.assignment summary{gap:7px}.assignment-points{font-size:12px}}</style></head><body>
 <header><div class="wrap"><div class="hrow"><span class="brand">&lt;LessonBoard/&gt;</span><button class="btn sm ghost" id="lo" style="margin:0 10px 0 0">Выйти</button><div class="lang"><button data-l="ru" class="on">РУС</button><button data-l="kk">ҚАЗ</button></div></div>
 <div class="prog"><div class="rail"><i id="pg"></i></div><b id="pgn">0%</b></div></div></header>
 <nav><div class="in" id="nav"></div></nav>
